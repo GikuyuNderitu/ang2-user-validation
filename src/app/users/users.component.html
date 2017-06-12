@@ -1,0 +1,104 @@
+<div class="container">
+  <h1>Form Component</h1>
+  <form action="" #myForm="ngForm" (submit)="submitForm(myForm)">
+    <label>
+      First Name:
+      <input
+        type="text"
+        name="firstName"
+        minlength="3"
+        [(ngModel)]="user.firstName"
+        #firstName="ngModel"
+        required>
+        <div 
+          *ngIf="firstName.errors && (firstName.dirty || firstName.touched)"
+          class="error error-message">
+          <h5 [hidden]="!firstName.errors.required">First Name is required</h5>
+          <h5 [hidden]="!firstName.errors.minlength">First Name must be at least 3 characters</h5>
+        </div>
+    </label>
+    <label>
+      Last Name:
+      <input
+        type="text"
+        name="lastName"
+        minlength="3"
+        [(ngModel)]="user.lastName"
+        #lastName="ngModel"
+        required>
+        <div 
+          *ngIf="lastName.errors && (lastName.dirty || lastName.touched)"
+          class="error error-message">
+          <h5 [hidden]="!lastName.errors.required">Last Name is required</h5>
+          <h5 [hidden]="!lastName.errors.minlength">Last Name must be at least 3 characters</h5>
+        </div>
+    </label>
+    <label>
+      Email:
+      <input
+        type="email"
+        name="email"
+        pattern="^[a-zA-Z\d]{2,}@[a-zA-Z]{2,}\.[a-zA-Z]{2,}?"
+        [(ngModel)]="user.email"
+        #email="ngModel"
+        required>
+        <div 
+          *ngIf="email.errors && (email.dirty || email.touched)"
+          class="error error-message">
+          <h5 [hidden]="!email.errors.required">Email is required</h5>
+          <h5 [hidden]="!email.errors.pattern">Invalid Email Adress (example@example.com)</h5>
+        </div>
+    </label>
+    <label>
+      Password:
+      <input
+        type="text"
+        name="password"
+        minlength="8"
+        pattern="[a-zA-z\d.]+"
+        [(ngModel)]="user.password"
+        (change)="updateRegexp()"
+        #password="ngModel"
+        required>
+        <div 
+          *ngIf="password.errors && (password.dirty || password.touched)"
+          class="error error-message">
+          <h5 [hidden]="!password.errors.required">Password is required</h5>
+          <h5 [hidden]="!password.errors.minlength">Password must be at least 8 characters</h5>
+          <h5 [hidden]="!password.errors.pattern">Password must have letters and numbers</h5>
+        </div>
+    </label>
+    <label>
+      Password Confirmation:
+      <input
+        type="text"
+        name="passwordConfirmation"
+        [(ngModel)]="user.passwordConfirmation"
+        [pattern]="pcValidator"
+        #passwordConfirmation="ngModel"
+        required>
+        <div 
+          *ngIf="lastName.errors && (lastName.dirty || lastName.touched)"
+          class="error error-message">
+          <h5 [hidden]="!lastName.errors.required">Password Confirmation is required</h5>
+          <h5 [hidden]="!lastName.errors.pattern">Password Confirmation must match password field</h5>
+        </div>
+    </label>
+    <label>
+      State:
+      <select
+        name="state"
+        [(ngModel)]="user.state"
+        #state="ngModel"
+        required>
+        <option value="" *ngFor="let state of user.states" [value]="state.name">{{state.abbreviation}}</option>
+      </select>
+      <div 
+          *ngIf="state.errors && (state.dirty || state.touched)"
+          class="error error-message">
+          <h5 [hidden]="!state.errors.required">Last Name is required</h5>
+        </div>
+    </label>
+    <button type="submit" [disabled]="!myForm.form.valid">Submit</button>
+  </form>
+</div>
